@@ -26,11 +26,10 @@ var root = {
 function addWordRecursive(node, currLetter, word) {
     if (currLetter == '') {
         node.isWord = true;
-        console.log("Word added.");
         return;
     }
 
-    var index = node.nextLetters.indexOf(currLetter);
+    var index = indexOf(currLetter, node.nextLetters);
     if (index == -1) {
         var newNode = {
             letter:currLetter,
@@ -95,23 +94,56 @@ function readTextFile(file)
         {
             if(rawFile.status === 200 || rawFile.status == 0)
             {
-                var allText = rawFile.responseText;
-                var len = allText.length;
-                var i = 0;
-                var j = 0;
-                while (i < len) {
-                    j = allText.indexOf('\n', i);
-                    addWord(allText.substring(i, j));
-                    i = j;
+                var listWord = rawFile.responseText.split('\n');
+                var length = listWord.length;
+                for (var i = 0; i < length; i++) {
+                    addWord(listWord[i]);
                 }
-                console.log(rawFile.responseText);
             }
         }
     }
     rawFile.send(null);
 }
 
-readTextFile("dictionary.txt");
+for (var i = 1; i <= 268; i++) {
+//for (var i = 1; i <= 5; i++) {
+    readTextFile('dictionary/' + i);
+}
+root.isWord = false;
+
+var anagrams = [];
+
+function findAnagramsRecursive(letters, currWord) {
+    if (findWord(currWord)) {
+        anagrams.push(currWord);
+    }
+    if (letters.length == 0 ) {
+        return;
+    }
+    else {
+        // var currWordVariation;
+        for (var j = 0; j < letters.length; j++) {
+            var newLetter = letters[j];
+            var newLetters = [];
+            for (var k = 0; k < letters.length; k++) {
+                if (k != j) {
+                    newLetters.push(letters[k]);
+                }
+            }
+            // for (var i = 0; i <= currWord.length; i++) {
+            //     currWordVariation = currWord.substring(0, i) + newLetter + currWord.substring(i);
+            //     findAnagramsRecursive(newLetters, currWordVariation);
+            // }
+            findAnagramsRecursive(newLetters, currWord + newLetter);
+        }
+    }
+}
+
+function findAnagrams(letters) {
+    anagrams = [];
+    findAnagramsRecursive(letters, "");
+}
+
 console.log(root);
 
 //https://raw.githubusercontent.com/jonbcard/scrabble-bot/master/src/dictionary.txt

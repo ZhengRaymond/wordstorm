@@ -3,15 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <script type="text/javascript" src="main.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/hover.css">
+    <script type="text/javascript" src="dawg.js"></script>
+
 </head>
 
 <body>
-<canvas id="my_canvas" width="800" height="600"></canvas>
-<p id="log">
-    Log.
-</p>
+    <!--<button type="button" id="start">Start!</button><br/><br/><br/>-->
+    <div class="left">
+        <canvas id="canvas" width="988" height="800"></canvas>
+    </div>
+    <div class="right">
+        <div class="controlPanel">
+            <button type="button" id="newGame" onclick="init();" class="hvr-bob" tabIndex="-1">New Game!</button>
+            <br>
+            <br>
+            <button type="button" id="showSolution" onclick="cheat();" class="hvr-bob" tabIndex="-1">Show All Solutions (Cheating!)</button>
+            <br>
+            <br>
+            <table id="outer">
+                <thead>
+                    <tr>
+                        <th id="tableTitle" colspan="5">Storm Record</th>
+                    </tr>
+                    <tr>
+                        <th colspan="5" style="width: 72px">Score&emsp;&nbsp;&nbsp;Letters&nbsp;&nbsp;&nbsp;</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td colspan="5" class="zeroSpace">
+                        <div id="scoreBoardTable">
+                            <table id="inner">
+                                <tbody id="scoreBoardData">
+                                    <tr><td> </td><td> </td></tr>
+                                    <tr><td> </td><td> </td></tr>
+                                    <tr><td> </td><td> </td></tr>
+                                    <tr><td> </td><td> </td></tr>
+                                    <tr><td> </td><td> </td></tr>
+                                    <tr><td> </td><td> </td></tr>
+                                    <tr><td> </td><td> </td></tr>
+                                    <tr><td> </td><td> </td></tr>
+                                    <tr><td> </td><td> </td></tr>
+                                    <tr><td> </td><td> </td></tr>
+                                    <tr><td> </td><td> </td></tr>
+                                    <tr><td> </td><td> </td></tr>
+                                    <tr><td> </td><td> </td></tr>
+                                    <tr><td> </td><td> </td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <p id="score">Score: </p>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="draw.js"></script>
+    <script type="text/javascript" src="main.js"></script>
 </body>
 
 </html>
