@@ -130,10 +130,6 @@ function findAnagramsRecursive(letters, currWord) {
                     newLetters.push(letters[k]);
                 }
             }
-            // for (var i = 0; i <= currWord.length; i++) {
-            //     currWordVariation = currWord.substring(0, i) + newLetter + currWord.substring(i);
-            //     findAnagramsRecursive(newLetters, currWordVariation);
-            // }
             findAnagramsRecursive(newLetters, currWord + newLetter);
         }
     }

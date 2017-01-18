@@ -19,15 +19,6 @@ ctx.canvas.width = 986;
 ctx.canvas.height = HEIGHT;
 document.body.appendChild(canvas);
 
-// loading images
-// var tileImageLoaded = false;
-// var tileImage = new Image();
-// tileImage.onload = function() {
-//     tileImageLoaded = true;
-// }
-// tileImage.src = './images/tile.png';
-
-var backgroundImageLoaded = false;
 var backgroundImage = new Image();
 backgroundImage.onload = function () {
     ctx.drawImage(backgroundImage, 0, 0);
@@ -40,14 +31,11 @@ function drawBlank() {
 
 // drawing tiles
 function drawTiles(word) {
-    // if (tileImageLoaded) {
-    //     ctx.drawImage(tileImage, EDGE_MARGIN + (BOX_MARGIN + BOX_DIM) * tileNum, BOX_MARGIN);
-    // }
     ctx.fillStyle = "rgba(0, 0, 0, 1)";
     for (var i = 0; i < HAND_SIZE; i++) {
         ctx.fillRect(EDGE_MARGIN + (BOX_MARGIN + BOX_DIM) * i - BASE_WIDTH, BOX_MARGIN + BASE_HEIGHT, BOX_DIM, BOX_DIM);
     }
-    ctx.font= (BOX_DIM * 4 / 5) + 'px Calibri lighter';
+    ctx.font= (BOX_DIM * 4 / 5) + 'px OCR';
     ctx.fillStyle = "rgba(255, 255, 255, 1)";
     for (var i = 0; i < word.length; i++) {
         ctx.fillText(word[i], EDGE_MARGIN + (BOX_MARGIN + BOX_DIM) * i + BOX_PAD - BASE_WIDTH + 5, BOX_DIM + BOX_MARGIN - BOX_PAD + BASE_HEIGHT - 5);
@@ -56,14 +44,11 @@ function drawTiles(word) {
 
 // drawing Hand
 function drawHand(hand) {
-    // if (tileImageLoaded) {
-    //     ctx.drawImage(tileImage, EDGE_MARGIN + (BOX_MARGIN + BOX_DIM) * tileNum, BOX_MARGIN);
-    // }
     ctx.fillStyle = "rgba(0, 0, 0, 1)";
     for (var i = 0; i < HAND_SIZE; i++) {
         ctx.fillRect(EDGE_MARGIN + (BOX_MARGIN + BOX_DIM) * i - BASE_WIDTH, BOX_DIM + 4 * BOX_MARGIN + BASE_HEIGHT, BOX_DIM, BOX_DIM);
     }
-    ctx.font= (BOX_DIM * 4 / 5) + 'px Calibri lighter';
+    ctx.font = (BOX_DIM * 4 / 5) + 'px OCR';
     ctx.fillStyle = "rgba(255, 255, 255, 1)";
     for (var i = 0; i < hand.length; i++) {
         ctx.fillText(hand[i], EDGE_MARGIN + (BOX_MARGIN + BOX_DIM) * i + BOX_PAD - BASE_WIDTH + 5, 2 * BOX_DIM + 4 * BOX_MARGIN - BOX_PAD + BASE_HEIGHT - 5);
@@ -111,8 +96,66 @@ function drawAnagram() {
     }
 }
 
-
 function draw() {
     drawTiles(currWord);
     drawHand(currLetters);
+}
+
+function animateLetter(top, bot) {
+    console.log("top: " + top + "; bot: " + bot + ".");
+    var tileTop = $("#tile" + top);
+    tileTop.css({ opacity: 1 });
+    tileTop.animate({
+        opacity: 0
+    });
+    var tileBot = $("#tile" + bot);
+    tileBot.css({ opacity: 0 });
+    tileBot.animate({
+        opacity: 1
+    });
+}
+
+function animateBackspace(top, bot) {
+    console.log("top: " + top + "; bot: " + bot + ".");
+    $("#tile" + top).css({ opacity: 0.01 });
+    $("#tile" + top).animate({
+        opacity: 0.5
+    });
+    $("#tile" + bot).css({ opacity: 1 });
+    $("#tile" + bot).animate({
+        opacity: 0
+    });
+}
+
+function animateSpacebar() {
+    for (var i = 8; i <= 14; i++) {
+        $("#tile" + i).css({opacity: 0});
+        $("#tile" + i).animate({
+            opacity: 1
+        });
+    }
+    setTimeout(function() {
+        console.log("Test");
+        draw();
+    }, 500);
+    for (var i = 8; i <= 14; i++) {
+        $("#tile" + i).animate({
+            opacity: 0
+        });
+    }
+}
+
+function animateEnter(top, bot) {
+    for (var i = 1; i <= top; i++) {
+        $("#tile" + i).css({ opacity: 0 });
+        $("#tile" + i).animate({
+           opacity: 1
+        });
+    }
+    for (var i = bot + 1 + 7; i <= 14; i++) {
+        $("#tile" + i).css({ opacity: 1 });
+        $("#tile" + i).animate({
+            opacity: 0
+        });
+    }
 }
